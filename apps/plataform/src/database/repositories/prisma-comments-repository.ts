@@ -17,6 +17,7 @@ export class PrismaCommentsRepository {
             data: {
                 userId: comment.userId,
                 movieId: comment.movieId,
+                citationId: comment.citationId,
                 text: comment.text,
                 isRepeated: false
             }

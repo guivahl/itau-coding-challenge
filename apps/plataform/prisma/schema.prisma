@@ -31,7 +31,6 @@ model User {
   Rating  Rating[]
   Comment Comment[]
 
-  CommentReply  CommentReply[]
   CommentReview CommentReview[]
   @@map("users")
 }
@@ -64,13 +63,16 @@ model Comment {
   userId     String
   movieId    String
   text       String
-  isRepeated Boolean  @default(false)
+  citationId Int?
   createdAt  DateTime @default(now())
+  isRepeated Boolean  @default(false)
+
+  citation Comment?  @relation("Citations", fields: [citationId], references: [id])
+  replies  Comment[] @relation("Citations")
 
   user  User  @relation(fields: [userId], references: [id])
   movie Movie @relation(fields: [movieId], references: [id])
 
-  CommentReply  CommentReply[]
   CommentReview CommentReview[]
 
   @@map("comments")
@@ -87,17 +89,4 @@ model CommentReview {
   comment Comment @relation(fields: [commentId], references: [id])
 
   @@map("commentsReviews")
-}
-
-model CommentReply {
-  id        Int      @id @default(autoincrement())
-  text      String
-  userId    String
-  commentId Int
-  createdAt DateTime @default(now())
-
-  user    User    @relation(fields: [userId], references: [id])
-  comment Comment @relation(fields: [commentId], references: [id])
-
-  @@map("commentsReplies")
 }
