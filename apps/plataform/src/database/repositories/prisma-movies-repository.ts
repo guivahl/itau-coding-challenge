@@ -2,7 +2,7 @@ import prisma from '../prisma'
 import { Movie } from '../../entities'
 
 export class PrismaMoviesRepository {
-    async findMovieByTitle (imdbID: string): Promise<Movie | null> {
+    async findMovieById (imdbID: string): Promise<Movie | null> {
         const movie = await prisma.movie.findFirst({
             where: { imdbID }
         })
