@@ -19,9 +19,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "movies" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "year" TEXT NOT NULL,
-    "director" TEXT NOT NULL,
+    "imdbID" TEXT NOT NULL,
 
     CONSTRAINT "movies_pkey" PRIMARY KEY ("id")
 );
@@ -73,6 +71,9 @@ CREATE TABLE "commentsReplies" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "movies_imdbID_key" ON "movies"("imdbID");
 
 -- AddForeignKey
 ALTER TABLE "ratings" ADD CONSTRAINT "ratings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

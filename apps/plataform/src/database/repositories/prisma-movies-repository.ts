@@ -2,30 +2,21 @@ import prisma from '../prisma'
 import { Movie } from '../../entities'
 
 export class PrismaMoviesRepository {
-    async findMovieByTitle (title: string): Promise<Movie | null> {
+    async findMovieByTitle (imdbID: string): Promise<Movie | null> {
         const movie = await prisma.movie.findFirst({
-            where: { 
-                title: { 
-                    contains: title,
-                    mode: 'insensitive' 
-                } 
-        }
+            where: { imdbID }
         })
 
         if (!movie) return null
 
-        const { id: movieId, ...movieData } = movie
-
-        return new Movie(movieData, movieId)
+        return new Movie({ imdbID: movie.imdbID }, movie.id)
     }
 
     async create (movie: Movie): Promise<void> {
         await prisma.movie.create({
             data: {
                 id: movie.id,        
-                title: movie.title,
-                year: movie.year,
-                director: movie.director
+                imdbID: movie.imdbID
             }
         })
     }

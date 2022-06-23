@@ -1,9 +1,7 @@
 import crypto from 'node:crypto';
 
 interface MovieProps {
-  title: string;
-  year: string;
-  director: string;
+  imdbID: string;
 }
 
 export default class Movie {
@@ -14,16 +12,8 @@ export default class Movie {
     return this._id;
   }
 
-  get title(): string {
-    return this.props.title;
-  }
-
-  get year(): string {
-    return this.props.year;
-  }
-
-  get director(): string {
-    return this.props.director;
+  get imdbID(): string {
+    return this.props.imdbID;
   }
 
   constructor(props: MovieProps, id?: string) {
