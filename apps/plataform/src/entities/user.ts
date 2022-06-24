@@ -24,8 +24,20 @@ export default class User {
     return this.props.firstName;
   }
 
+  get lastName(): string | null {
+    return this.props.lastName ?? null;
+  }
+
   get score(): number {
     return this.props.score;
+  }
+
+  get email(): string {
+    return this.props.email;
+  }
+
+  get password(): string {
+    return this.props.password;
   }
 
   get role(): ROLES {

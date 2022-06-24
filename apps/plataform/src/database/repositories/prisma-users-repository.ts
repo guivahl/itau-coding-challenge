@@ -1,4 +1,5 @@
 import prisma from '../prisma'
+import { User } from '../../entities'
 import { 
     ROLES,
     ROLE_LEITOR,
@@ -15,6 +16,20 @@ const userRole = (score: number): ROLES => {
 }
 
 export class PrismaUsersRepository {
+    async create (user: User): Promise<void> {
+        await prisma.user.create({
+            data: {
+                id: user.id,
+                role: user.role,
+                score: user.score,
+                firstName: user.firstName, 
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password
+            }
+        })
+    }
+
     async updatePoints (userId: string): Promise<void | null> {
         const user = await prisma.user.findUnique({
             where: { id: userId }
