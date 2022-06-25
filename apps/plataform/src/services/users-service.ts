@@ -11,7 +11,7 @@ interface createUserInfo {
     password: string;
 }
 
-export class UserService {
+export class UsersService {
     private userRepository: PrismaUsersRepository
 
     constructor() {

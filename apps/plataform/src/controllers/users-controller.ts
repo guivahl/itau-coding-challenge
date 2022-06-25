@@ -3,14 +3,14 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
 import { User } from '../entities'
-import { UserService } from '../services/users-service'
+import { UsersService } from '../services/users-service'
 
 @Controller('users')
 export class UsersController {
-    private userService: UserService
+    private userService: UsersService
 
     constructor() {
-        this.userService = new UserService()
+        this.userService = new UsersService()
     }
 
     @Post()
