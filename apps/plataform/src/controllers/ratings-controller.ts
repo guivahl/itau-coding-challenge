@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
 import { RatingsService } from '../services/ratings-service'
+import { authMiddleware } from '../middlewares/auth-middleware'
 
 @Controller('ratings')
 export class RatingsController {
@@ -13,9 +14,11 @@ export class RatingsController {
     }
 
     @Post()
+    @Middleware(authMiddleware)
     public async createRating(request: Request, response: Response): Promise<void> {
-        const { userId, movieId, score } = request.body
-
+        const { id: userId } = request.user
+        const { movieId, score } = request.body
+        
         await this.ratingService.create({
             userId,
             movieId,
