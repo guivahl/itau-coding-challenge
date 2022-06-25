@@ -12,6 +12,12 @@ interface createUserInfo {
 }
 
 export class UserService {
+    private userRepository: PrismaUsersRepository
+
+    constructor() {
+        this.userRepository = new PrismaUsersRepository()
+    }
+
     async create (userInfo: createUserInfo): Promise<void> {
         const INITIAL_USER_SCORE = 0
         
@@ -25,9 +31,7 @@ export class UserService {
             email: userInfo.email,
             password: hashedPassword   
         })
-
-        const userRepository = new PrismaUsersRepository()
-
-        await userRepository.create(newUser)
+        
+        await this.userRepository.create(newUser)
     }
 }
