@@ -1,5 +1,6 @@
 import { Controller, Get, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
+import { StatusCodes } from 'http-status-codes'
 
 import { User } from '../entities'
 import { UserService } from '../services/users-service'
@@ -13,7 +14,7 @@ export class UsersController {
     }
 
     @Post()
-    public async createUser(request: Request, response: Response): Promise<any> {
+    public async createUser(request: Request, response: Response): Promise<void> {
         const { firstName, email, password } = request.body
 
         await this.userService.create({
@@ -22,8 +23,6 @@ export class UsersController {
             password
         })
 
-        response.status(201).end()
-        
-        return {}
+        response.status(StatusCodes.CREATED).end()
     }
 }
