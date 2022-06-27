@@ -15,7 +15,7 @@ export class RatingsController {
 
     @Post()
     @Middleware(authMiddleware)
-    public async createRating(request: Request, response: Response): Promise<void> {
+    public async create(request: Request, response: Response): Promise<void> {
         const { id: userId } = request.user
         const { movieId, score } = request.body
         

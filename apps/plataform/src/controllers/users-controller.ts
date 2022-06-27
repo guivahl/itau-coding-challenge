@@ -14,7 +14,7 @@ export class UsersController {
     }
 
     @Post()
-    public async createUser(request: Request, response: Response): Promise<void> {
+    public async create(request: Request, response: Response): Promise<void> {
         const { firstName, email, password } = request.body
 
         await this.userService.create({
