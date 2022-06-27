@@ -12,6 +12,16 @@ export class PrismaCommentsRepository {
         return comments
     }
 
+    async findCommentsByMovie (movieId: string): Promise<Comment[]> {
+        const rawComments = await prisma.comment.findMany({
+            where: { movieId }
+        })
+        
+        const comments = rawComments.map((rawComment) => new Comment(rawComment))
+
+        return comments
+    }
+
     async create (comment: Comment): Promise<void> {
         await prisma.comment.create({
             data: {
