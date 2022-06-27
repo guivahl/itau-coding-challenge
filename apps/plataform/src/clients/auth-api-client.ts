@@ -1,13 +1,21 @@
 import { AxiosStatic } from 'axios'
 
 import { URL_AUTH_API } from '../config/environment'
+import { ROLES } from '../entities/types/roles'
 
 interface loginResponse {
     token: string
 }
 
 interface verifyResponse {
-
+    data: {
+        user: {
+        id: string
+        role: ROLES
+        },
+    iat: number,
+    exp: number
+    }
 }
 
 export class AuthAPI {

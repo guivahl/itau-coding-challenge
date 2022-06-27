@@ -1,12 +1,24 @@
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
-export function authMiddleware(request: Request, response: Response, next: NextFunction): void {
+import { AuthService } from '../services/auth-service'
+import { asyncHandler } from './async-handler-middleware'
+
+export const authMiddleware = asyncHandler(authentication) 
+
+
+async function authentication(request: Request, response: Response, next: NextFunction): Promise<void> {
     try {
-        request.user = { 
-            id: 'token',
-            role: 'LEITOR'
-        }
+        const authHeader = request.headers?.authorization as string
+
+        const [_, token] = authHeader.split(' ')
+
+        const authService = new AuthService()
+
+        const userInfo = await authService.verify(token)
+        
+        request.user = userInfo.user
+
         next()
     } catch (err) {
         response.status(StatusCodes.UNAUTHORIZED).end()

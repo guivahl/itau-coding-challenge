@@ -3,6 +3,17 @@ import axios from 'axios'
 
 import { BCRYPT_SALT } from '../config/environment'
 import { AuthAPI } from '../clients/auth-api-client';
+import { ROLES } from '../entities/types/roles'
+
+interface tokenData {
+    user: {
+        id: string
+        role: ROLES
+
+    },
+    iat: number,
+    exp: number
+}
 
 export class AuthService {
     private authAPI: AuthAPI
@@ -19,5 +30,11 @@ export class AuthService {
         const responseData = await this.authAPI.login(email, password)
 
         return responseData.token
+    }
+
+    async verify (token: string): Promise<tokenData> {
+        const responseData = await this.authAPI.verify(token)
+
+        return responseData.data
     }
 }
