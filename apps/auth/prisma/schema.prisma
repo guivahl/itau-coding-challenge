@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum roles {
+    LEITOR
+    BASICO
+    AVANCADO
+    MODERADOR
+}
+
+model User {
+    id        String   @id
+    role      roles    @default(LEITOR)
+    score     Int      @default(0)
+    firstName String
+    lastName  String?
+    email     String   @unique
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Rating  Rating[]
+    Comment Comment[]
+
+    CommentReview CommentReview[]
+    @@map("users")
+}
+
+model Movie {
+    id     String @id
+    imdbID String @unique
+
+    Rating  Rating[]
+    Comment Comment[]
+
+    @@map("movies")
+}
+
+model Rating {
+    id        Int      @id @default(autoincrement())
+    userId    String
+    movieId   String
+    score     String
+    createdAt DateTime @default(now())
+
+    user  User  @relation(fields: [userId], references: [id])
+    movie Movie @relation(fields: [movieId], references: [id])
+
+    @@map("ratings")
+}
+
+model Comment {
+    id         Int      @id @default(autoincrement())
+    userId     String
+    movieId    String
+    text       String
+    citationId Int?
+    createdAt  DateTime @default(now())
+    isRepeated Boolean  @default(false)
+
+    citation Comment?  @relation("Citations", fields: [citationId], references: [id])
+    replies  Comment[] @relation("Citations")
+
+    user  User  @relation(fields: [userId], references: [id])
+    movie Movie @relation(fields: [movieId], references: [id])
+
+    CommentReview CommentReview[]
+
+    @@map("comments")
+}
+
+model CommentReview {
+    id        Int      @id @default(autoincrement())
+    hasLiked  Boolean
+    userId    String
+    commentId Int
+    createdAt DateTime @default(now())
+
+    user    User    @relation(fields: [userId], references: [id])
+    comment Comment @relation(fields: [commentId], references: [id])
+
+    @@map("commentsReviews")
+}
