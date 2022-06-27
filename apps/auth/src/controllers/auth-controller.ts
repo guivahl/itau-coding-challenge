@@ -4,18 +4,34 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 import { AuthService } from '../services/auth-service'
 import { UsersService } from '../services/user-service'
+import { Cache } from '../clients/node-cache-client'
 
 @Controller('auth')
 export class AuthController {
     private userService: UsersService
+    private cache: Cache
 
     constructor() {
         this.userService = new UsersService()
+        this.cache = new Cache()
     }
 
     @Post('login')
     public async login(request: Request, response: Response): Promise<void> {
         const { email, password } = request.body
+
+        const recentWrongLogins = this.cache.get(email)
+
+        if (recentWrongLogins && recentWrongLogins > 3) {
+            const timeRemaning = this.cache.getTtl(email) as number
+
+            const timestamp = Date.now()
+
+            const timeRemaningInSeconds = Math.floor((timeRemaning - timestamp) / 1000)
+
+            response.status(StatusCodes.UNAUTHORIZED).json({ message: `Limite de tentativas excedido. Tente novamente em ${timeRemaningInSeconds} segundos.` })
+            return
+        }
 
         const user = await this.userService.getUserByEmail(email)
 
@@ -27,6 +43,10 @@ export class AuthController {
         const isValid = await AuthService.comparePassword(password, user.password)
 
         if (!isValid) {
+            const key = email
+
+            this.cache.addLoginTry(key) 
+
             response.status(StatusCodes.UNAUTHORIZED).json({ message: ReasonPhrases.UNAUTHORIZED })
             return
         }
