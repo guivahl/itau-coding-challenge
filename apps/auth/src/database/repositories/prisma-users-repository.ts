@@ -9,7 +9,7 @@ export class PrismaUsersRepository {
         
         if (!user) return null
 
-        return new User(user)
+        return new User(user, user.id)
     }
 
 }
