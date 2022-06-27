@@ -1,17 +1,43 @@
-import { PrismaCommentsRepository } from '../database/repositories/prisma-comments-repository';
+import axios from 'axios'
 
-import { Comment } from '../entities'
+import { PrismaCommentsRepository } from '../database/repositories/prisma-comments-repository';
+import { PrismaMoviesRepository } from '../database/repositories/prisma-movies-repository';
+import { MovieAPI } from '../clients/movies-api-client';
+
+import { Comment, Movie } from '../entities'
 
 export class MoviesService {
     private commentRepository: PrismaCommentsRepository
+    private movieRepository: PrismaMoviesRepository
+    private movieApi: MovieAPI
 
     constructor() {
         this.commentRepository = new PrismaCommentsRepository()
+        this.movieRepository = new PrismaMoviesRepository()
+        this.movieApi = new MovieAPI(axios)
     }
 
     async getCommentsByMovie (movieId: string): Promise<Comment[]> {
         const comments = await this.commentRepository.findCommentsByMovie(movieId)
         
         return comments
+    }
+
+    async getMovieByName (movieName: string) {
+        const movieInfo = await this.movieApi.fetchMovieByName(movieName)
+
+        return movieInfo
+    }
+
+    async findMovieOrCreate (imdbID: string): Promise<Movie> {
+        const movie = await this.movieRepository.findMovieById(imdbID)
+    
+        if (movie) return new Movie(movie)
+
+        const newMovie = new Movie({ imdbID })
+
+        await this.movieRepository.create(newMovie)
+
+        return newMovie
     }
 }
