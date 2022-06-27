@@ -39,6 +39,6 @@ export class ServerSetup extends Server {
     }
 
     public start(): void {
-      this.server = this.app.listen(PORT)
+      this.server = this.app.listen(PORT, () => console.log(`Serviço principal rodando na porta ${PORT}`))
     }
 }
