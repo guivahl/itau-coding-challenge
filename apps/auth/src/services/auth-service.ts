@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken'
 import { BCRYPT_SALT, JWT_TOKEN, JWT_EXPIRES_IN } from '../config/environment'
 import { ROLES } from '../entities/types/roles'
 
-interface tokenInfo {
-  userId: string,
+interface userInfo {
+  id: string,
   role: ROLES
 }
 
@@ -20,14 +20,14 @@ export class AuthService {
         return isPasswordCorret
     }
 
-    public static generateToken(tokenInfo: tokenInfo): string {
-      return jwt.sign({ tokenInfo }, JWT_TOKEN, {
+    public static generateToken(user: userInfo): string {
+      return jwt.sign({ user }, JWT_TOKEN, {
         expiresIn: JWT_EXPIRES_IN
       });
     }
   
-    public static decodeToken(token: string): authToken {
-      return jwt.verify(token, JWT_TOKEN) as authToken;
+    public static decodeToken(token: string) {
+      return jwt.verify(token, JWT_TOKEN);
     }
 
 }

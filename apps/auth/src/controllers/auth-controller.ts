@@ -32,7 +32,7 @@ export class AuthController {
         }
 
         const tokenData = {
-            userId: user.id,
+            id: user.id,
             role: user.role
         }
 
@@ -45,6 +45,12 @@ export class AuthController {
     public async verify(request: Request, response: Response): Promise<void> {
         const { token } = request.body
 
-        response.status(StatusCodes.CREATED).json({token})
+        try {
+            const data = await AuthService.decodeToken(token)
+    
+            response.status(StatusCodes.CREATED).json({ data })
+        } catch (err) {
+            response.status(StatusCodes.UNAUTHORIZED).json({ message: ReasonPhrases.UNAUTHORIZED })
+        }
     }
 }
