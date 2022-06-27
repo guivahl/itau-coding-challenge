@@ -14,7 +14,7 @@ export class AuthController {
     }
 
     @Post('login')
-    public async create(request: Request, response: Response): Promise<void> {
+    public async login(request: Request, response: Response): Promise<void> {
         const { email, password } = request.body
 
         const user = await this.userService.getUserByEmail(email)
