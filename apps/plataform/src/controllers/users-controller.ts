@@ -25,7 +25,7 @@ export class UsersController {
                 password
             )
 
-            response.status(StatusCodes.CREATED).json({ token })
+            response.status(StatusCodes.OK).json({ token })
         } catch (error) {
             response.status(StatusCodes.UNAUTHORIZED).json({ message: ReasonPhrases.UNAUTHORIZED })
         }
