@@ -28,4 +28,8 @@ export class CommentsService {
 
         await this.commentRepository.create(newComment)
     }
+
+    async delete (commentId: number): Promise<void> {
+        await this.commentRepository.delete(commentId)
+    }
 }
