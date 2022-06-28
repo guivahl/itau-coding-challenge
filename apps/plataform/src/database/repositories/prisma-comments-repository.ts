@@ -40,4 +40,13 @@ export class PrismaCommentsRepository {
             where: { id: commentId }
         })
     }
+
+    async updateCommentAsRepeated (commentId: number): Promise<void> {
+        await prisma.comment.update({
+            data: {
+                isRepeated: true
+            },
+            where: { id: commentId }
+        })
+    }
 }

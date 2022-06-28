@@ -32,4 +32,8 @@ export class CommentsService {
     async delete (commentId: number): Promise<void> {
         await this.commentRepository.delete(commentId)
     }
+
+    async updateCommentAsRepeated (commentId: number): Promise<void> {
+        await this.commentRepository.updateCommentAsRepeated(commentId)
+    }
 }

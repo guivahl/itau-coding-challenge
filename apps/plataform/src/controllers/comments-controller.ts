@@ -1,4 +1,4 @@
-import { Controller, Middleware, Post, Delete } from '@overnightjs/core'
+import { Controller, Middleware, Post, Delete, Patch } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
@@ -75,6 +75,18 @@ export class CommentsController {
         const id = parseInt(commentId)
 
         await this.commentService.delete(id)
+
+        response.status(StatusCodes.OK).end()
+    }
+
+    @Patch(':commentId/repeated')
+    @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
+    public async markAsRepeated(request: Request, response: Response): Promise<void> {
+        const commentId = request.params.commentId as string
+
+        const id = parseInt(commentId)
+
+        await this.commentService.updateCommentAsRepeated(id)
 
         response.status(StatusCodes.OK).end()
     }
