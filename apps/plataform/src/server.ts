@@ -7,6 +7,7 @@ import { UsersController } from './controllers/users-controller'
 import { RatingsController } from './controllers/ratings-controller'
 import { MoviesController } from './controllers/movies-controller'
 import { CommentsController } from './controllers/comments-controller'
+import { CommentsReviewController } from './controllers/comments-review-controller'
 
 import { PORT } from './config/environment'
 
@@ -32,12 +33,14 @@ export class ServerSetup extends Server {
         const ratingControllers = new RatingsController()
         const movieController = new MoviesController()
         const commentController = new CommentsController()
+        const commentReviewController = new CommentsReviewController()
 
         this.addControllers([
             userControllers,
             ratingControllers,
             movieController,
-            commentController
+            commentController,
+            commentReviewController
         ])
     }
 
