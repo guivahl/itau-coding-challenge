@@ -15,7 +15,7 @@ export class CommentsReviewService {
         this.commentRepository = new PrismaCommentsReviewRepository()
     }
 
-    async create(commentInfo: createCommentReviewInfo) {
+    async create(commentInfo: createCommentReviewInfo): Promise<void> {
         const newCommentReview = new CommentReview({
             userId: commentInfo.userId,
             commentId: commentInfo.commentId,
