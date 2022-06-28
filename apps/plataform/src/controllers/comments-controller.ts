@@ -1,4 +1,4 @@
-import { Controller, Middleware, Post } from '@overnightjs/core'
+import { Controller, Middleware, Post, Delete } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
@@ -67,4 +67,15 @@ export class CommentsController {
         response.status(StatusCodes.CREATED).end()
     }
 
+    @Delete(':commentId')
+    @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
+    public async delete(request: Request, response: Response): Promise<void> {
+        const commentId = request.params.commentId as string
+
+        const id = parseInt(commentId)
+
+        await this.commentService.delete(id)
+
+        response.status(StatusCodes.OK).end()
+    }
 }

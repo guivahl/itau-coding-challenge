@@ -34,4 +34,10 @@ export class PrismaCommentsRepository {
             }
         })
     }
+
+    async delete (commentId: number): Promise<void> {
+        await prisma.comment.delete({
+            where: { id: commentId }
+        })
+    }
 }
