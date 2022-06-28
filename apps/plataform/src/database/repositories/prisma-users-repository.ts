@@ -30,23 +30,29 @@ export class PrismaUsersRepository {
         })
     }
 
-    async updatePoints (userId: string): Promise<void | null> {
+    async getUserById (userId: string): Promise<User | null> {
         const user = await prisma.user.findUnique({
             where: { id: userId }
         })
 
         if (!user) return null
 
-        const newScore = user.score + 1
+        return new User(user, user.id)
+    }
 
-        const roleByNewScore = userRole(newScore)
-
-        const role = user.role === roleByNewScore ? user.role : roleByNewScore
-
+    async updatePoints (userId: string, newScore: number): Promise<void | null> {
         await prisma.user.update({
             data: {
-                score: newScore,
-                role
+                score: newScore
+            },
+            where: { id: userId }
+        })
+    }
+
+    async updateRole (userId: string, newRole: ROLES): Promise<void> {
+        await prisma.user.update({
+            data: {
+                role: newRole
             },
             where: { id: userId }
         })

@@ -5,7 +5,7 @@ interface UserProps {
   role: ROLES;
   score: number;
   firstName: string;
-  lastName?: string;
+  lastName?: string | null;
   email: string;
   password: string;
   createdAt?: Date;

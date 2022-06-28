@@ -1,5 +1,5 @@
 import { PrismaRatingsRepository } from '../database/repositories/prisma-ratings-repository';
-import { PrismaUsersRepository } from '../database/repositories/prisma-users-repository';
+import { UsersService } from '../services/users-service'
 
 import { Rating } from '../entities'
 
@@ -11,11 +11,11 @@ interface createRatingInfo {
 
 export class RatingsService {
     private ratingRepository: PrismaRatingsRepository
-    private userRepository: PrismaUsersRepository
+    private userService: UsersService
 
     constructor() {
         this.ratingRepository = new PrismaRatingsRepository()
-        this.userRepository = new PrismaUsersRepository()
+        this.userService = new UsersService()
     }
 
     async create (ratingInfo: createRatingInfo): Promise<void> {
@@ -26,6 +26,6 @@ export class RatingsService {
         })
         
         await this.ratingRepository.create(newRating)
-        await this.userRepository.updatePoints(ratingInfo.userId)
+        await this.userService.updatePoints(ratingInfo.userId)
     }
 }
