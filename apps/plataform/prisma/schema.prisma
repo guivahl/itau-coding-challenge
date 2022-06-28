@@ -64,11 +64,15 @@ model Comment {
   movieId    String
   text       String
   citationId Int?
+  replyId    Int?
   createdAt  DateTime @default(now())
   isRepeated Boolean  @default(false)
 
   citation Comment?  @relation("Citations", fields: [citationId], references: [id])
-  replies  Comment[] @relation("Citations")
+  citedBy  Comment[] @relation("Citations")
+
+  reply     Comment?  @relation("Replies", fields: [replyId], references: [id])
+  repliedBy Comment[] @relation("Replies")
 
   user  User  @relation(fields: [userId], references: [id])
   movie Movie @relation(fields: [movieId], references: [id])
