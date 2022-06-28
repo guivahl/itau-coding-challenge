@@ -53,6 +53,10 @@ export class UsersService {
         }
     }   
 
+    async updateRoleToModerador(userId: string): Promise<void> {
+        await this.userRepository.updateRole(userId, ROLE_MODERADOR)
+    }
+
     private userRole (score: number): ROLES {
         if (score >= 1000) return ROLE_MODERADOR
         if (score >= 100) return ROLE_AVANCADO

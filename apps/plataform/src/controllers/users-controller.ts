@@ -1,9 +1,11 @@
-import { Controller, Get, Post } from '@overnightjs/core'
+import { Controller, Get, Middleware, Patch, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 import { UsersService } from '../services/users-service'
 import { AuthService } from '../services/auth-service'
+import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
+import { ROLE_MODERADOR } from '../entities/types/roles'
 
 @Controller('users')
 export class UsersController {
@@ -43,5 +45,15 @@ export class UsersController {
         })
 
         response.status(StatusCodes.CREATED).end()
+    }
+
+    @Patch(':userId/roles/moderador')
+    @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
+    public async updateUserRole(request: Request, response: Response): Promise<void> {
+        const { userId } = request.params
+
+        await this.userService.updateRoleToModerador(userId)
+
+        response.status(StatusCodes.OK).end()
     }
 }
