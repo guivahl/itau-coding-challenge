@@ -28,6 +28,7 @@ export class PrismaCommentsRepository {
                 userId: comment.userId,
                 movieId: comment.movieId,
                 citationId: comment.citationId,
+                replyId: comment.replyId,
                 text: comment.text,
                 isRepeated: false
             }

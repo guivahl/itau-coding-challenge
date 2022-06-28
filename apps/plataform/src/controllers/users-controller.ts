@@ -2,7 +2,6 @@ import { Controller, Get, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
-import { User } from '../entities'
 import { UsersService } from '../services/users-service'
 import { AuthService } from '../services/auth-service'
 

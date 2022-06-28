@@ -4,6 +4,7 @@ interface CommentProps {
     movieId: string
     text: string
     citationId: number | null
+    replyId: number | null
     isRepeated?: boolean
     createdAt?: Date
 }
@@ -25,6 +26,10 @@ export default class Comment {
 
   get citationId(): number | null {
     return this.props.citationId;
+  }
+
+  get replyId(): number | null {
+    return this.props.replyId;
   }
 
   constructor(props: CommentProps) {
