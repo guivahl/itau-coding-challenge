@@ -1,0 +1,37 @@
+
+- Tabelas:
+    - **users** 
+        - **id**: identificador da tabela. Para tabela de usuários escolhi o tipo *uuid* por achar o mesmo mais seguro.
+        - **role**: coluna do tipo *enum* que define qual papel do usuário. Lista de papéis possíveis: 'LEITOR', 'BASICO', 'AVANCADO', 'MODERADOR'.
+        - **score**: pontuação do usuário no sistema.
+        - **firstName**: primeiro nome do usuário.
+        - **laststName**: sobrenome do usuário.
+        - **email**: email utilizado para login, coluna única.
+        - **password**: senha utilizada para acesso.
+        - **createdAt**: data de criação do usuário.
+        - **updatedAt**: data atualizada sempre que alguma informação do usuário sofre alteração.
+    - **movies**
+        - **id**: identificador da tabela. Para tabela de usuários escolhi o tipo *uuid* por achar o mesmo mais seguro.
+        - **imdbID**: identificador cedido pela API para referenciar o filme.
+    - **ratings**
+        - **id**: identificador da tabela.
+        - **userId**: coluna *foreign key* referenciando a tabela de *users*.
+        - **movieId**: coluna *foreign key* referenciando a tabela de *movies*.
+        - **score**: armzena nota dada por um usuário a um filme. 
+        - **createdAt**: data de criação da nota.
+    - **comments**
+        - **id**: identificador da tabela.
+        - **userId**: coluna *foreign key* referenciando a tabela de *users*.
+        - **movieId**: coluna *foreign key* referenciando a tabela de *movies*.
+        - **citationId**: coluna *foreign key* referenciando a tabela de *comments*. Utilizado para lógica de "citar comentário".
+        - **replyId**: coluna *foreign key* referenciando a tabela de *comments*.Utilizado para lógica de "responder comentário".
+        - **text**: armazena o texto do comentário.
+        - **isRepetead**: define se comentário é repetido.
+        - **createdAt**: data de criação do comentário.
+    - **commentsReviews**
+        - **id**: identificador da tabela.
+        - **commentId**: coluna *foreign key* referenciando a tabela de *comments*.
+        - **userId**: coluna *foreign key* referenciando a tabela de *users*.
+        - **hasLiked**: armazena se usuário gostou ou não do comentário.
+        - **createdAt**: data de criação da avaliação do comentário.
+        

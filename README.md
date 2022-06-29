@@ -1,21 +1,43 @@
 # itau-coding-challenge
-Projeto referente a quinta e última etapa do processo seletivo do Bootcamp Itaú Dev Experts realizado em parceria com a Let's Code.
 
-### Requisitos
+Projeto referente a quinta e última etapa do processo seletivo do [Bootcamp Itaú Dev Experts](https://letscode.com.br/processos-seletivos/itau-bootcamp-dev) realizado em parceria com a [Let's Code](http://letscode.com.br/).
 
-- [ ] Um usuário não poderá logar sem ter feito um cadastro
-- [ ] Um usuário não poderá ver filmes e comentários e notas sem estar logado
-- [ ] Um usuário não poderá criar, editar ou excluir comentários e notas sem estar logado
-- [ ] Um usuário de um determinado perfil não poderá realizar ações que não fazem parte de seu perfil
-- [ ] Todas as funcionalidade de seu sistema devem receber um token de autenticação, gerados pela sua API de autorização
-- [ ] Um usuário não autenticado(que não possui o token) não poderá realizar ações no sistema.
-- [ ] Um usuário com token invalido não poderá realizar ações no sistema.
-- [ ] Todas as tentativas falhas de login devem ser salvas em um cache.
-- [ ] Caso um usuário tente 3 vezes logar e erre, na 4 vez deverá ser retornado uma mensagem de “limite de tentativas excedido “
+## Requisitos
 
-### Requisitos não funcionais
+Os requisitos do projeto podem ser encontrados no arquivo [REQUISITOS.md](assets/REQUISITOS.md) presente na pasta *assets* do projeto.
 
-- [ ] Armazene os dados de cadastro de usuário e produtos em uma base de dados da sua escolha, inclusive H2.
-- [ ] Crie um cache para tentativas de login, o cache pode ser utilizando um provedor de cache ou o próprio hashMap do java
-- [ ] Desenvolva suas API’s utilizando a linguagem JAVA.
-- [ ] Você deve utilizar os filmes fornecidos pela API [https://www.omdbapi.com/](https://www.omdbapi.com/), ou seja deverá consumir essa API na sua aplicação.
+## Arquitetura
+
+### Sistema
+
+O sistema possui dois serviços: o da plataforma, que possui as principais regras de negócio, e o de autenticação, que realiza a validação de credenciais do usuário. Ambos utilizam o mesmo banco de dados. \
+O serviço da plataforma realiza consultas a API [The Open Movie Database](https://www.omdbapi.com/) para obter informações sobre os filmes e requisições ao serviço de autenticação para validar os acessos. \
+O serviço de autenticação utiliza um banco de dados cache para armazenar tentativas inválidas de login.
+
+Diagrama:
+![ArquiteturaSistema](./assets/SystemArchitecture.jpg)
+
+
+### Código
+
+A arquitetura de código escolhida foi inspirada em conceitos de Arquitetura limpa. Utilizamos, em ambos serviços, camadas de abstração com diferentes responsabilidades.
+
+- Camadas:
+    - Server ⇒ Lida com as requisições recebidas pelo sistema
+    - Controllers & Routes ⇒ O servidor direciona a chamada para um controller, que é re
+    - Services ⇒ Regras de negócio, aciona banco e API externa
+    - Database Repositories ⇒ Acessa os dados do banco
+
+Diagrama:
+![ArquiteturaCodigo](./assets/CodeArchitecture.jpg)
+
+### Banco de dados
+
+Pelas regras de negócio e requisitos definidos optei por utilizar um banco de dados relacional SQL. O banco de dados escolhido para esta aplicação foi o [Postgres](https://www.postgresql.org/). \
+A fim de obter uma maior abstração na conexão e operações com a instância do banco, optei pela utilização de um ORM em ambos serviços do sistema. O ORM escolhido foi o [Prisma](https://www.prisma.io/). 
+
+O diagrama relacional foi construído especificamente para a aplicação e se encontra logo abaixo. Para maiores informações sobre as tabelas e respectivas colunas acesse o arquivo [TABELAS.md](assets/TABELAS.md). 
+
+
+Diagrama:
+![DiagramaBanco](./assets/DatabaseDiagram.png)
