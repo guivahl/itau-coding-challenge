@@ -6,6 +6,16 @@ Projeto referente a quinta e última etapa do processo seletivo do [Bootcamp Ita
 
 Os requisitos do projeto podem ser encontrados no arquivo [REQUISITOS.md](assets/REQUISITOS.md) presente na pasta *assets* do projeto.
 
+## Como executar
+
+
+### Rotas
+
+Durante o projeto utilizei o [Insomnia](https://insomnia.rest/) para realizar as requisições ao servidor. É um software enxuto e de fácil utilização. Recomendo o mesmo para testagem de aplicação. \
+Caso opte pelo Insomnia, é necessário definir algumas [variavéis de ambiente](https://docs.insomnia.rest/insomnia/environment-variables). No arquivo [ROTAS.md](assets/ROTAS.md) há uma documentação de como configurar essas variáveis e também uma relação entre **Funcionalidades x Rotas** no sistema.
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=itau-coding-challenge&uri=https://github.com/guivahl/itau-coding-challenge/blob/main/assets/insomnia.json)
+
 ## Arquitetura
 
 ### Sistema
