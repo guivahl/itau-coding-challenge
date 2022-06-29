@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  database:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: itau_coding_challenge
+    container_name: database-itau-docker
+  
+  plataform:
+    build:
+      context: ./apps/plataform
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./apps/plataform:/home/apps/plataform
+    container_name: plataform-docker
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    command: bash -c "npx prisma migrate dev && npm run dev"
+
+  auth:
+    build:
+      context: ./apps/auth
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./apps/auth:/home/apps/auth
+    container_name: auth-docker
+    expose:
+      - '3001'
+    ports:
+      - '3001:3001'
+    command: bash -c "npx prisma migrate dev && npm run dev"

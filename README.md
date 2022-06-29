@@ -6,8 +6,37 @@ Projeto referente a quinta e última etapa do processo seletivo do [Bootcamp Ita
 
 Os requisitos do projeto podem ser encontrados no arquivo [REQUISITOS.md](assets/REQUISITOS.md) presente na pasta *assets* do projeto.
 
+## Tecnologias utilizadas
+
 ## Como executar
 
+### Instalar
+
+Para facilitar a execução do projeto foram criados containers para as ambas APIs (plataforma e autenticação) e também para o banco de dados Postgres. Dessa forma, podemos executar todo o fluxo somente com o Docker e o Docker Compose instalados.
+
+- [Docker](https://www.docker.com/) (Utilizei a versão 20.10.1)
+- [Docker Compose](https://docs.docker.com/compose/install/) (Utilizei a versão 1.27.4)
+
+### Execução
+
+Clone o projeto e entre na pasta com os seguintes comandos:
+```
+    git clone git@github.com:guivahl/itau-coding-challenge.git
+    cd itau-coding-challenge/
+```
+
+Antes de executar o projeto a primeira vez é necessário realizar a construção da imagem Docker. Para isso, execute o seguinte comando:
+``` 
+make build
+```
+Após a criação da imagem, podemos instanciar os containers com o comando:
+``` 
+make up
+```
+Para parar a execução dos containers do sistema, execute:
+``` 
+make down
+```
 
 ### Rotas
 
