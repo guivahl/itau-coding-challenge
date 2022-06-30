@@ -5,6 +5,8 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 import { UsersService } from '../services/users-service'
 import { AuthService } from '../services/auth-service'
 import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
+import { validationMiddleware } from '../middlewares/validation-middleware'
+import { userLoginSchema } from '../entities/schemas/user'
 import { ROLE_MODERADOR } from '../entities/types/roles'
 
 @Controller('users')
@@ -18,6 +20,7 @@ export class UsersController {
     }
 
     @Post('login')
+    @Middleware(validationMiddleware(userLoginSchema))
     public async login(request: Request, response: Response): Promise<void> {
         const { email, password } = request.body
 
