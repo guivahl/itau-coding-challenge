@@ -9,12 +9,13 @@ export const validationMiddleware = (object: FieldOptions) => {
     const errors: Array<string> = []
 
     return (request: Request, response: Response, next: NextFunction) => {
-        const { body, headers, query } = request
+        const { body, headers, query, params } = request
 
         const validator = new Validator(object, {
             body, 
             headers, 
-            query
+            query,
+            params
         })
 
         validator.validateAllObjects()

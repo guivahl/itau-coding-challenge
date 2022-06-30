@@ -1,8 +1,8 @@
 import Joi, { SchemaLike, Schema, ValidationOptions } from 'joi'
 
-type ValidationTypes = 'body' | 'headers' | 'query'
+type ValidationTypes = 'body' | 'headers' | 'query' | 'params'
 
-const validationOptions: Array<ValidationTypes> = ['body', 'headers', 'query']
+const validationOptions: Array<ValidationTypes> = ['body', 'headers', 'query', 'params']
 
 export type FieldOptions = { 
     [key in ValidationTypes]?: Schema;
@@ -13,13 +13,11 @@ type RequestInfo = {
 }
 
 export class Validator {
-    private validator
     private fields: FieldOptions
     private errors: Array<string>
     private requestInfo
     
     constructor(fields: FieldOptions, requestInfo: RequestInfo) { 
-        this.validator = Joi
         this.errors = []
 
         this.fields = fields
