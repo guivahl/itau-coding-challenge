@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth-service'
 import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
 import { validationMiddleware } from '../middlewares/validation-middleware'
 import { HttpUnauthorized } from '../utils/error'
-import { userLoginSchema } from '../entities/schemas/user'
+import { userLoginSchema, userCreateSchema } from '../entities/schemas/user'
 import { ROLE_MODERADOR } from '../entities/types/roles'
 
 @Controller('users')
@@ -40,11 +40,13 @@ export class UsersController {
 
 
     @Post()
+    @Middleware(validationMiddleware(userCreateSchema))
     public async create(request: Request, response: Response): Promise<void> {
-        const { firstName, email, password } = request.body
+        const { firstName, lastName, email, password } = request.body
 
         await this.userService.create({
             firstName,
+            lastName,
             email,
             password
         })

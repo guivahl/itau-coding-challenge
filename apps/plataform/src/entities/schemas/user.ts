@@ -7,3 +7,12 @@ export const userLoginSchema = {
     })
 }
 
+export const userCreateSchema = {
+    body: Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required()
+    })
+}
+
