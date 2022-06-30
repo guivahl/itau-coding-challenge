@@ -94,3 +94,13 @@ A fim de obter uma maior abstração na conexão e operações com a instância 
 O diagrama relacional foi construído especificamente para a aplicação e se encontra logo abaixo. Para maiores informações sobre as tabelas e respectivas colunas acesse o arquivo [TABELAS.md](assets/TABELAS.md). 
 
 ![DiagramaBanco](./assets/images/DatabaseDiagram.png)
+
+### Melhorias futuras
+
+O projeto foi realizado ao longo do período de 10 dias. Devido ao tempo limitado, não consegui realizar todas as funcionalidades que desejava inicialmente. Segue em anexo o que faria em sequência, a fim de otimizar o projeto:
+
+- Adicionar testes, unitários e E2E.
+- Adicionar cache na utilização de chamadas externas para consulta de filmes.
+- Adicionar logger de requisições.
+- Adicionar comandos de `build` para ambiente de produção.
+- Criar `seeds` para facilitar a utilização da aplicação em ambientes de teste.
