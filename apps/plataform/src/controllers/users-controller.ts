@@ -6,6 +6,7 @@ import { UsersService } from '../services/users-service'
 import { AuthService } from '../services/auth-service'
 import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
 import { validationMiddleware } from '../middlewares/validation-middleware'
+import { HttpUnauthorized } from '../utils/error'
 import { userLoginSchema } from '../entities/schemas/user'
 import { ROLE_MODERADOR } from '../entities/types/roles'
 
@@ -32,7 +33,8 @@ export class UsersController {
 
             response.status(StatusCodes.OK).json({ token })
         } catch (error) {
-            response.status(StatusCodes.UNAUTHORIZED).json({ message: ReasonPhrases.UNAUTHORIZED })
+            const newError = new HttpUnauthorized()
+            response.status(newError.status).json({ message: newError.message })
         }
     }
 

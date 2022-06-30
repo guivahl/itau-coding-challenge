@@ -13,6 +13,21 @@ export class HttpError extends Error {
 
 export class HttpBadRequest extends HttpError {
   constructor(message: string) {
-    super(StatusCodes.BAD_REQUEST, message)
+    const newMessage = message ?? ReasonPhrases.BAD_REQUEST
+    super(StatusCodes.BAD_REQUEST, newMessage)
+  }
+}
+
+export class HttpInternalServerError extends HttpError {
+  constructor(message?: string) {
+    const newMessage = message ?? ReasonPhrases.INTERNAL_SERVER_ERROR
+    super(StatusCodes.INTERNAL_SERVER_ERROR, newMessage)
+  }
+}
+
+export class HttpUnauthorized extends HttpError {
+  constructor(message?: string) {
+    const newMessage = message ?? ReasonPhrases.UNAUTHORIZED
+    super(StatusCodes.UNAUTHORIZED, newMessage)
   }
 }
