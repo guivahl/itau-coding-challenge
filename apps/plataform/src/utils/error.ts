@@ -10,3 +10,9 @@ export class HttpError extends Error {
       this.message = message ?? ReasonPhrases.INTERNAL_SERVER_ERROR
     }
 }
+
+export class HttpBadRequest extends HttpError {
+  constructor(message: string) {
+    super(StatusCodes.BAD_REQUEST, message)
+  }
+}

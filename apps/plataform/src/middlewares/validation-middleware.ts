@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
 import { Validator, FieldOptions } from '../utils/validator'
-import { HttpError } from '../utils/error'
+import { HttpBadRequest } from '../utils/error'
 
 export const validationMiddleware = (object: FieldOptions) => {
     const errors: Array<string> = []
@@ -22,7 +22,7 @@ export const validationMiddleware = (object: FieldOptions) => {
         if (validator.hasErrors()) {
             const errorMessage = validator.getErrorMessage()
             
-            return next(new HttpError(StatusCodes.BAD_REQUEST, errorMessage))
+            return next(new HttpBadRequest(errorMessage))
         }
 
         next()
