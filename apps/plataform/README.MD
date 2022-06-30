@@ -17,3 +17,5 @@ A relação de funcionalidades e rotas pode ser vista [aqui](../../assets/ROTAS.
 - Como o usuário pode pontuar?
     - Ao avaliar um filme
     - Ao responder um comentário
+- Qual valor das notas de um filme?
+    - Usuário pode avaliar um filme de '1' a '10'.
