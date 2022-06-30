@@ -63,7 +63,7 @@ A arquitetura de código escolhida foi inspirada em conceitos de Arquitetura lim
 
 - Camadas:
     - Server ⇒ Lida com as requisições recebidas pelo sistema
-    - Controllers & Routes ⇒ O servidor direciona a chamada para um controller, que é re
+    - Controllers & Routes ⇒ Responsáveis por receber e devolver os dados para cada endpoint
     - Services ⇒ Regras de negócio, aciona banco e API externa
     - Database Repositories ⇒ Acessa os dados do banco
 
