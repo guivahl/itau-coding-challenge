@@ -71,8 +71,7 @@ O sistema possui dois serviços: o da plataforma, que possui as principais regra
 O serviço da plataforma realiza consultas a API [The Open Movie Database](https://www.omdbapi.com/) para obter informações sobre os filmes e requisições ao serviço de autenticação para validar os acessos. \
 O serviço de autenticação utiliza um banco de dados cache para armazenar tentativas inválidas de login.
 
-Diagrama:
-![ArquiteturaSistema](./assets/SystemArchitecture.jpg)
+![ArquiteturaSistema](./assets/images/SystemArchitecture.jpg)
 
 
 ### Código
@@ -85,8 +84,7 @@ A arquitetura de código escolhida foi inspirada em conceitos de Arquitetura lim
     - Services ⇒ Regras de negócio, aciona banco e API externa
     - Database Repositories ⇒ Acessa os dados do banco
 
-Diagrama:
-![ArquiteturaCodigo](./assets/CodeArchitecture.jpg)
+![ArquiteturaCodigo](./assets/images/CodeArchitecture.jpg)
 
 ### Banco de dados
 
@@ -95,6 +93,4 @@ A fim de obter uma maior abstração na conexão e operações com a instância 
 
 O diagrama relacional foi construído especificamente para a aplicação e se encontra logo abaixo. Para maiores informações sobre as tabelas e respectivas colunas acesse o arquivo [TABELAS.md](assets/TABELAS.md). 
 
-
-Diagrama:
-![DiagramaBanco](./assets/DatabaseDiagram.png)
+![DiagramaBanco](./assets/images/DatabaseDiagram.png)
