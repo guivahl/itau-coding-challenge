@@ -8,32 +8,50 @@ Os requisitos do projeto podem ser encontrados no arquivo [REQUISITOS.md](assets
 
 ## Tecnologias utilizadas
 
+- [NodeJs] (https://nodejs.org/)
+    - [Typescript] (https://www.typescriptlang.org/)
+    - [Express] (https://expressjs.com/)
+    - [Prisma] (https://prisma.io/)
+- [PostgreSQL] (https://www.postgresql.org/)
+- [Docker](https://www.docker.com/) 
+    - [Docker Compose](https://docs.docker.com/compose/install/) 
+
 ## Como executar
 
 ### Instalar
 
-Para facilitar a execução do projeto foram criados containers para as ambas APIs (plataforma e autenticação) e também para o banco de dados Postgres. Dessa forma, podemos executar todo o fluxo somente com o Docker e o Docker Compose instalados.
+Para facilitar a execução do projeto foram criados containers para as ambas APIs (plataforma e autenticação) e também para o banco de dados Postgres. Dessa forma, podemos executar todo o fluxo somente com o Docker e o Docker Compose instalados no ambiente.
 
 - [Docker](https://www.docker.com/) (Utilizei a versão 20.10.1)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Utilizei a versão 1.27.4)
 
 ### Execução
 
-Clone o projeto e entre na pasta com os seguintes comandos:
+1. Clone o projeto e entre na pasta com os seguintes comandos:
 ```
-    git clone git@github.com:guivahl/itau-coding-challenge.git
-    cd itau-coding-challenge/
+    git clone git@github.com:guivahl/itau-coding-challenge.git && cd itau-coding-challenge/
 ```
 
-Antes de executar o projeto a primeira vez é necessário realizar a construção da imagem Docker. Para isso, execute o seguinte comando:
+1.1 **IMPORTANTE:** Para conexão com a API externa é necessário gerar uma **API_KEY** no site. Para isso, é necessário um simples cadastro com a utilização de um endereço de email válido. A criação da chave pode ser gerada nesse [link](https://www.omdbapi.com/apikey.aspx).
+
+Após geração da chave, é necessário adicionar a chave em um arquivo chamado **.env** dentro da pasta *apps/plataform*. Essa ação pode ser realizada com o seguinte comando:
+```
+touch apps/plataform/.env
+
+echo "MOVIE_API_KEY={INSIRA_KEY_AQUI}" >> apps/plataform/.env
+```
+
+1.2 Antes de executar o projeto a primeira vez é necessário realizar a construção da imagem Docker. Para isso, execute o seguinte comando:
 ``` 
 make build
 ```
-Após a criação da imagem, podemos instanciar os containers com o comando:
+
+2. Após a criação da imagem, podemos instanciar os containers com o comando:
 ``` 
 make up
 ```
-Para parar a execução dos containers do sistema, execute:
+
+2.1 Para parar a execução dos containers do sistema, execute:
 ``` 
 make down
 ```
