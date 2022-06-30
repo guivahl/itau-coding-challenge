@@ -48,5 +48,7 @@ Caso o login e senha estiverem errado, sua API de autenticação deverá salvar 
 
 - Armazene os dados de cadastro de usuário e produtos em uma base de dados da sua escolha, inclusive H2.
 - Crie um cache para tentativas de login, o cache pode ser utilizando um provedor de cache ou o próprio hashMap do java
-- Desenvolva suas API’s utilizando a linguagem JAVA.
+- Desenvolva suas API’s utilizando a linguagem JAVA.*
 - Você deve utilizar os filmes fornecidos pela API [https://www.omdbapi.com/](https://www.omdbapi.com/), ou seja deverá consumir essa API na sua aplicação.
+
+* Esse requisito foi alterado após o envio do desafio. Foi permitido a realização do projeto em Javascript, C#, Python e Java.
