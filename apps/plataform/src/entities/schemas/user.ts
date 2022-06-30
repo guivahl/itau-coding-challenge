@@ -16,3 +16,10 @@ export const userCreateSchema = {
     })
 }
 
+
+export const updateUserRoleSchema = {
+    params: Joi.object({
+        userId: Joi.string().uuid().required()
+    })
+}
+

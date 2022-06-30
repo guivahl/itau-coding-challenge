@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth-service'
 import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
 import { validationMiddleware } from '../middlewares/validation-middleware'
 import { HttpUnauthorized } from '../utils/error'
-import { userLoginSchema, userCreateSchema } from '../entities/schemas/user'
+import { userLoginSchema, userCreateSchema, updateUserRoleSchema } from '../entities/schemas/user'
 import { ROLE_MODERADOR } from '../entities/types/roles'
 
 @Controller('users')
@@ -55,6 +55,7 @@ export class UsersController {
     }
 
     @Patch(':userId/roles/moderador')
+    @Middleware(validationMiddleware(updateUserRoleSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
     public async updateUserRole(request: Request, response: Response): Promise<void> {
         const { userId } = request.params
