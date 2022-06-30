@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { AuthService } from '../services/auth-service'
 import { asyncHandler } from './async-handler-middleware'
+import { HttpUnauthorized, HttpForbidden } from '../utils/error'
 import { ROLES } from '../entities/types/roles'
 
 export const authMiddleware = asyncHandler(authentication) 
@@ -21,7 +22,8 @@ async function authentication(request: Request, response: Response, next: NextFu
 
         next()
     } catch (err) {
-        response.status(StatusCodes.UNAUTHORIZED).end()
+        const newError = new HttpUnauthorized()    
+        response.status(newError.status).json({ message: newError.message })
     }
 }
 
@@ -40,7 +42,8 @@ export const roleAuthenticationMiddleware = (rolesAllowed: ROLES[]) => (request:
         })
 
     } catch (err) {
-        response.status(StatusCodes.FORBIDDEN).end()
+        const newError = new HttpForbidden()    
+        response.status(newError.status).json({ message: newError.message })
     }
 
 }

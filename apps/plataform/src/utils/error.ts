@@ -31,3 +31,10 @@ export class HttpUnauthorized extends HttpError {
     super(StatusCodes.UNAUTHORIZED, newMessage)
   }
 }
+
+export class HttpForbidden extends HttpError {
+  constructor(message?: string) {
+    const newMessage = message ?? ReasonPhrases.FORBIDDEN
+    super(StatusCodes.FORBIDDEN, newMessage)
+  }
+}
