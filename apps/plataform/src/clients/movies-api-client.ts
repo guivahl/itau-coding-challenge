@@ -1,6 +1,6 @@
 import { AxiosStatic } from 'axios'
 import { MOVIE_API_KEY } from '../config/environment'
-
+import { HttpInternalServerError } from '../utils/error'
 interface RatingsAPIResponse {
     Source: string
     Value: string 
@@ -32,6 +32,7 @@ export interface OmbdAPIResponse {
     Production: string
     Website: string
     Response: string
+    Error?: string
 }
 
 export class MovieAPI {
@@ -43,8 +44,27 @@ export class MovieAPI {
     }
 
     async fetchMovieByName(title: string): Promise<OmbdAPIResponse> {
-        const response = await this.request.get<OmbdAPIResponse>(`http://www.omdbapi.com/?apikey=${this.API_KEY}&t=${title}`)
+        try {
+            const response = await this.request.get<OmbdAPIResponse>(`http://www.omdbapi.com/?apikey=${this.API_KEY}&t=${title}`)
 
-        return response.data
+            if (response.data.Error) {
+                const errorMessage = `Erro na API de filmes - ${response.data.Error}`
+    
+                throw new HttpInternalServerError(errorMessage)
+            }
+
+            return response.data
+        } catch (error) {
+            const defaultMessage = 'Erro na API de filmes'
+
+            if (error instanceof Error) {
+                const errorMessage = `${defaultMessage} - ${error.message}`
+    
+                throw new HttpInternalServerError(errorMessage)
+            }
+
+            throw new HttpInternalServerError(defaultMessage)
+
+        }
     }
 }
