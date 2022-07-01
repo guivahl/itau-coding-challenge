@@ -19,3 +19,4 @@ A relação de funcionalidades e rotas pode ser vista [aqui](../../assets/ROTAS.
     - Ao responder um comentário
 - Qual valor das notas de um filme?
     - Usuário pode avaliar um filme de '1' a '10'.
+- Usuário 'AVANÇADO' ou 'MODERADOR', ao desejar citar um comentário, também pode, simultaneamente, responder um outro.

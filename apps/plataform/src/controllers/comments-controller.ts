@@ -5,6 +5,8 @@ import { StatusCodes } from 'http-status-codes'
 import { CommentsService } from '../services/comments-service'
 import { UsersService } from '../services/users-service'
 import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
+import { validationMiddleware } from '../middlewares/validation-middleware'
+import { commentCreateSchema, commentReplyCreateSchema, commentCitationSchema, deleteCommentSchema, updateCommentRepeteadSchema } from '../entities/schemas/comment'
 import { ROLE_AVANCADO, ROLE_BASICO, ROLE_MODERADOR } from '../entities/types/roles'
 
 @Controller('comments')
@@ -18,6 +20,7 @@ export class CommentsController {
     }
 
     @Post()
+    @Middleware(validationMiddleware(commentCreateSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_BASICO, ROLE_AVANCADO, ROLE_MODERADOR]))
     public async create(request: Request, response: Response): Promise<void> {
         const { id: userId } = request.user
@@ -33,6 +36,7 @@ export class CommentsController {
     }
 
     @Post('replies')
+    @Middleware(validationMiddleware(commentReplyCreateSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_BASICO, ROLE_AVANCADO, ROLE_MODERADOR]))
     public async createReply(request: Request, response: Response): Promise<void> {
         const { id: userId } = request.user
@@ -51,6 +55,7 @@ export class CommentsController {
     }
 
     @Post('citations')
+    @Middleware(validationMiddleware(commentCitationSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_AVANCADO, ROLE_MODERADOR]))
     public async createCitation(request: Request, response: Response): Promise<void> {
         const { id: userId } = request.user
@@ -68,6 +73,7 @@ export class CommentsController {
     }
 
     @Delete(':commentId')
+    @Middleware(validationMiddleware(deleteCommentSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
     public async delete(request: Request, response: Response): Promise<void> {
         const commentId = request.params.commentId as string
@@ -80,6 +86,7 @@ export class CommentsController {
     }
 
     @Patch(':commentId/repeated')
+    @Middleware(validationMiddleware(updateCommentRepeteadSchema))
     @Middleware(roleAuthenticationMiddleware([ROLE_MODERADOR]))
     public async markAsRepeated(request: Request, response: Response): Promise<void> {
         const commentId = request.params.commentId as string
