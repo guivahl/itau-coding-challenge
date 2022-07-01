@@ -4,8 +4,9 @@ WORKDIR /home/apps/plataform
 
 COPY package.json ./
 
-ENV DATABASE_URL="postgresql://docker:password@database:5432/itau_coding_challenge"
-
 COPY . .
+
+ENV DATABASE_URL="postgresql://docker:password@database:5432/itau_coding_challenge"
+ENV URL_AUTH_API="http://auth:3001"
 
 RUN npm install --location=global prisma
