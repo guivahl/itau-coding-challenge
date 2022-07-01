@@ -30,4 +30,8 @@ export class AuthService {
       return jwt.verify(token, JWT_TOKEN);
     }
 
+    static async hashPassword(password: string, salt = BCRYPT_SALT): Promise<string> {
+      return bcrypt.hash(password, salt)
+  }
+
 }
