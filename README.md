@@ -54,6 +54,11 @@ Para facilitar a execução do projeto foram criados containers para as ambas AP
 make up
 ```
 
+- Caso deseje executar os containers visualizando os logs de criação, execute:
+``` 
+make logs
+```
+
 - Para parar a execução dos containers do sistema, execute:
 ``` 
 make down
