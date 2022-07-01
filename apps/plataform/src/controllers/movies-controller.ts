@@ -6,12 +6,14 @@ import { MoviesService } from '../services/movies-service'
 import { authMiddleware } from '../middlewares/auth-middleware'
 import { validationMiddleware } from '../middlewares/validation-middleware'
 import { getMovieCommentsSchema, getMovieSchema } from '../entities/schemas/movie'
+import { BaseController } from './base-controller'
 
 @Controller('movies')
-export class MoviesController {
+export class MoviesController extends BaseController {
     private moviesService: MoviesService
 
     constructor() {
+        super()
         this.moviesService = new MoviesService()
     }
 
@@ -20,12 +22,16 @@ export class MoviesController {
     @Middleware(authMiddleware)
     public async getMovie(request: Request, response: Response): Promise<void> {
         const { movieName } = request.query 
+        try {
+            const movieAPIData = await this.moviesService.getMovieByName(movieName as string)
+            
+            const movie = await this.moviesService.findMovieOrCreate(movieAPIData.imdbID)
 
-        const movieAPIData = await this.moviesService.getMovieByName(movieName as string)
-        
-        const movie = await this.moviesService.findMovieOrCreate(movieAPIData.imdbID)
-
-        response.status(StatusCodes.OK).json({ movieId: movie.id, ...movieAPIData })
+            response.status(StatusCodes.OK).json({ movieId: movie.id, ...movieAPIData })
+        }  catch (error) {
+            const newError = this.errorHandler(error)
+            response.status(newError.status).json({ message: newError.message })
+        } 
     }
 
     @Get(':movieId/comments') 
@@ -33,9 +39,13 @@ export class MoviesController {
     @Middleware(authMiddleware)
     public async getMovieComments(request: Request, response: Response): Promise<void> {
         const { movieId } = request.params
-
-        const comments = await this.moviesService.getCommentsByMovie(movieId)
-
-        response.status(StatusCodes.OK).json(comments)
+        try {
+            const comments = await this.moviesService.getCommentsByMovie(movieId)
+    
+            response.status(StatusCodes.OK).json(comments)
+        } catch (error) {
+            const newError = this.errorHandler(error)
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 }

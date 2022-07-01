@@ -8,13 +8,15 @@ import { roleAuthenticationMiddleware } from '../middlewares/auth-middleware'
 import { validationMiddleware } from '../middlewares/validation-middleware'
 import { commentCreateSchema, commentReplyCreateSchema, commentCitationSchema, deleteCommentSchema, updateCommentRepeteadSchema } from '../entities/schemas/comment'
 import { ROLE_AVANCADO, ROLE_BASICO, ROLE_MODERADOR } from '../entities/types/roles'
+import { BaseController } from './base-controller'
 
 @Controller('comments')
-export class CommentsController {
+export class CommentsController extends BaseController {
     private commentService: CommentsService
     private userService: UsersService
 
     constructor() {
+        super()
         this.commentService = new CommentsService()
         this.userService = new UsersService()
     }
@@ -26,13 +28,19 @@ export class CommentsController {
         const { id: userId } = request.user
         const { movieId, text } = request.body
         
-        await this.commentService.create({
-            userId,
-            movieId,
-            text
-        })
+        try {
+            await this.commentService.create({
+                userId,
+                movieId,
+                text
+            })
+    
+            response.status(StatusCodes.CREATED).end()
+        } catch (error) {
+            const newError = this.errorHandler(error)
 
-        response.status(StatusCodes.CREATED).end()
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 
     @Post('replies')
@@ -42,16 +50,23 @@ export class CommentsController {
         const { id: userId } = request.user
         const { movieId, text, replyId } = request.body
         
-        await this.commentService.create({
-            userId,
-            movieId,
-            text,
-            replyId
-        })
+        try {
+            await this.commentService.create({
+                userId,
+                movieId,
+                text,
+                replyId
+            })
+    
+            await this.userService.updatePoints(userId)
+    
+            response.status(StatusCodes.CREATED).end()
+        } catch (error) {
+            const newError = this.errorHandler(error)
 
-        await this.userService.updatePoints(userId)
-
-        response.status(StatusCodes.CREATED).end()
+            response.status(newError.status).json({ message: newError.message })
+        }
+        
     }
 
     @Post('citations')
@@ -61,15 +76,21 @@ export class CommentsController {
         const { id: userId } = request.user
         const { movieId, text, citationId, replyId } = request.body
         
-        await this.commentService.create({
-            userId,
-            movieId,
-            text,
-            replyId,
-            citationId
-        })
+        try {
+            await this.commentService.create({
+                userId,
+                movieId,
+                text,
+                replyId,
+                citationId
+            })
+    
+            response.status(StatusCodes.CREATED).end()
+        } catch (error) {
+            const newError = this.errorHandler(error)
 
-        response.status(StatusCodes.CREATED).end()
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 
     @Delete(':commentId')
@@ -79,10 +100,15 @@ export class CommentsController {
         const commentId = request.params.commentId as string
 
         const id = parseInt(commentId)
+        try {
+            await this.commentService.delete(id)
+    
+            response.status(StatusCodes.OK).end()
+        } catch (error) {
+            const newError = this.errorHandler(error)
 
-        await this.commentService.delete(id)
-
-        response.status(StatusCodes.OK).end()
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 
     @Patch(':commentId/repeated')
@@ -93,8 +119,14 @@ export class CommentsController {
 
         const id = parseInt(commentId)
 
-        await this.commentService.updateCommentAsRepeated(id)
+        try {
+            await this.commentService.updateCommentAsRepeated(id)
+    
+            response.status(StatusCodes.OK).end()
+        } catch (error) {
+            const newError = this.errorHandler(error)
 
-        response.status(StatusCodes.OK).end()
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 }
