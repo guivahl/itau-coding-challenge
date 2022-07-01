@@ -1,4 +1,4 @@
-interface CommentProps {
+export interface CommentProps {
     id?: number
     userId: string
     movieId: string
@@ -30,6 +30,10 @@ export default class Comment {
 
   get replyId(): number | null {
     return this.props.replyId;
+  }
+
+  get commentProps(): CommentProps {
+    return this.props;
   }
 
   constructor(props: CommentProps) {

@@ -4,7 +4,8 @@ import { PrismaCommentsRepository } from '../database/repositories/prisma-commen
 import { PrismaMoviesRepository } from '../database/repositories/prisma-movies-repository';
 import { MovieAPI } from '../clients/movies-api-client';
 
-import { Comment, Movie } from '../entities'
+import { Movie } from '../entities'
+import { CommentProps } from '../entities/comment'
 
 export class MoviesService {
     private commentRepository: PrismaCommentsRepository
@@ -17,10 +18,10 @@ export class MoviesService {
         this.movieApi = new MovieAPI(axios)
     }
 
-    async getCommentsByMovie (movieId: string): Promise<Comment[]> {
+    async getCommentsByMovie (movieId: string): Promise<CommentProps[]> {
         const comments = await this.commentRepository.findCommentsByMovie(movieId)
         
-        return comments
+        return comments.map(comment => comment.commentProps)
     }
 
     async getMovieByName (movieName: string) {
@@ -32,7 +33,7 @@ export class MoviesService {
     async findMovieOrCreate (imdbID: string): Promise<Movie> {
         const movie = await this.movieRepository.findMovieById(imdbID)
     
-        if (movie) return new Movie(movie)
+        if (movie) return new Movie(movie, movie.id)
 
         const newMovie = new Movie({ imdbID })
 
