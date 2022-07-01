@@ -19,6 +19,8 @@ services:
     volumes:
       - ./apps/plataform:/home/apps/plataform
     container_name: plataform-docker
+    depends_on:
+      - 'auth'
     expose:
       - '3000'
     ports:
@@ -32,7 +34,9 @@ services:
       target: development
     volumes:
       - ./apps/auth:/home/apps/auth
-    container_name: auth-docker
+    container_name: auth-docker    
+    depends_on:
+      - 'database'
     expose:
       - '3001'
     ports:
