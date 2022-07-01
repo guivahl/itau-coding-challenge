@@ -6,6 +6,7 @@ import express from 'express'
 import { AuthController } from './controllers/auth-controller'
 
 import { PORT } from './config/environment'
+import { globalErrorHandlerMiddleware } from './middlewares/global-error-handler-middleware'
 
 export class ServerSetup extends Server {
     private server?: http.Server 
@@ -17,6 +18,7 @@ export class ServerSetup extends Server {
     public initServer(): void {
         this.setupExpress()
         this.setupControllers()
+        this.setupGlobalMiddlewares()
     }
 
     private setupExpress(): void {
@@ -28,6 +30,10 @@ export class ServerSetup extends Server {
         const authController = new AuthController()
 
         this.addControllers([authController])
+    }
+
+    private setupGlobalMiddlewares(): void {
+        this.app.use(globalErrorHandlerMiddleware)
     }
 
     public start(): void {
