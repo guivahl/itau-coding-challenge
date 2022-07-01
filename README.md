@@ -67,9 +67,23 @@ make down
 ### Rotas
 
 Durante o projeto utilizei o [Insomnia](https://insomnia.rest/) para realizar as requisições ao servidor pois considero o software enxuto e de fácil utilização. Criei uma documentação nele e recomendo o mesmo para testagem de aplicação. \
-Caso opte pelo Insomnia, é necessário definir algumas [variavéis de ambiente](https://docs.insomnia.rest/insomnia/ environment-variables) no programa. No arquivo [ROTAS.md](assets/ROTAS.md) há uma documentação de como configurar essas variáveis e também uma relação entre **Funcionalidades x Rotas** do sistema.
+Caso opte pelo Insomnia, é necessário definir algumas [variavéis de ambiente](https://docs.insomnia.rest/insomnia/ environment-variables) no programa. 
+- No arquivo [ROTAS.md](assets/ROTAS.md) há uma documentação de como configurar essas variáveis e também uma relação entre **Funcionalidades x Rotas** do sistema.
+- Para as rotas autenticadas, é necessário realizar uma requisição de Login válida e armazenar o token retornado pela API na variável **AUTH_TOKEN**.
 
 [![Run in Insomnia](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=itau-coding-challenge&uri=https://github.com/guivahl/itau-coding-challenge/blob/main/assets/insomnia.json)
+
+### Seeds
+
+Para facilitar os testes em ambiente de desenvolvimento, foram criados arquivos de **seeds** para criação de usuários com todas *roles* possíveis no banco de dados. Caso tenha optado por rodar o projeto via Docker, as seeds são executadas automaticamente.
+
+Login para os usuários criados via seed:
+```
+{
+    email: ['vahl-leitor@gmail.com', 'vahl-basico@gmail.com','vahl-avancado@gmail.com','vahl-moderador@gmail.com']
+    senha: 'senha123'
+}
+```
 
 ## Arquitetura
 
@@ -111,4 +125,3 @@ O projeto foi realizado ao longo do período de 10 dias. Devido ao tempo limitad
 - Adicionar cache na utilização de chamadas externas para consulta de filmes.
 - Adicionar logger de requisições.
 - Adicionar comandos de `build` para ambiente de produção.
-- Criar `seeds` para facilitar a utilização da aplicação em ambientes de desenvolvimento.
