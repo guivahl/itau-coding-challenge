@@ -1,10 +1,13 @@
-import { Controller, Get, Post } from '@overnightjs/core'
+import { Controller, Middleware, Post } from '@overnightjs/core'
 import { Request, Response } from 'express'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 import { AuthService } from '../services/auth-service'
 import { UsersService } from '../services/user-service'
 import { Cache } from '../clients/node-cache-client'
+import { validationMiddleware } from '../middlewares/validation-middleware'
+
+import { userLoginSchema, userVerifySchema } from '../entities/schemas/user'
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +20,7 @@ export class AuthController {
     }
 
     @Post('login')
+    @Middleware(validationMiddleware(userLoginSchema))
     public async login(request: Request, response: Response): Promise<void> {
         const { email, password } = request.body
 
@@ -62,6 +66,7 @@ export class AuthController {
     }
 
     @Post('verify')
+    @Middleware(validationMiddleware(userVerifySchema))
     public async verify(request: Request, response: Response): Promise<void> {
         const { token } = request.body
 
