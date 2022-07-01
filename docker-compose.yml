@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   database:
@@ -23,7 +23,7 @@ services:
       - '3000'
     ports:
       - '3000:3000'
-    command: bash -c "npx prisma migrate dev && npm run dev"
+    command: bash -c "npm install -D prisma@4.0.0 && npx prisma migrate dev && npm run dev"
 
   auth:
     build:
@@ -37,4 +37,4 @@ services:
       - '3001'
     ports:
       - '3001:3001'
-    command: bash -c "npx prisma migrate dev && npm run dev"
+    command: bash -c "npm install -D prisma@4.0.0 && npx prisma migrate dev && npm run dev"

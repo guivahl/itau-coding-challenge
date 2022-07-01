@@ -8,3 +8,4 @@ ENV DATABASE_URL="postgresql://docker:password@database:5432/itau_coding_challen
 
 COPY . .
 
+RUN npm install --location=global prisma
