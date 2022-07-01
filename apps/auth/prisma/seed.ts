@@ -68,7 +68,7 @@ async function main() {
     },
   })
 
-  console.log({ userLeitor, userBasico, userAvancado, userModerador })
+  console.log('Seeds de usuário criadas!')
 }
 
 main()
