@@ -8,13 +8,6 @@ import {
     ROLE_MODERADOR 
 } from '../../entities/types/roles'
 
-const userRole = (score: number): ROLES => {
-    if (score >= 1000) return ROLE_MODERADOR
-    if (score >= 100) return ROLE_AVANCADO
-    if (score >= 20) return ROLE_BASICO
-    return ROLE_LEITOR
-}
-
 export class PrismaUsersRepository {
     async create (user: User): Promise<void> {
         await prisma.user.create({
