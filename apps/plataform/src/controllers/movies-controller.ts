@@ -4,6 +4,8 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 import { MoviesService } from '../services/movies-service'
 import { authMiddleware } from '../middlewares/auth-middleware'
+import { validationMiddleware } from '../middlewares/validation-middleware'
+import { getMovieCommentsSchema, getMovieSchema } from '../entities/schemas/movie'
 
 @Controller('movies')
 export class MoviesController {
@@ -14,15 +16,11 @@ export class MoviesController {
     }
 
     @Get() 
+    @Middleware(validationMiddleware(getMovieSchema))
     @Middleware(authMiddleware)
     public async getMovie(request: Request, response: Response): Promise<void> {
         const { movieName } = request.query 
 
-        if (!movieName) {
-            response.status(StatusCodes.BAD_REQUEST).json({ message: ReasonPhrases.BAD_REQUEST })
-            return
-        }
-       
         const movieAPIData = await this.moviesService.getMovieByName(movieName as string)
         
         const movie = await this.moviesService.findMovieOrCreate(movieAPIData.imdbID)
@@ -31,6 +29,7 @@ export class MoviesController {
     }
 
     @Get(':movieId/comments') 
+    @Middleware(validationMiddleware(getMovieCommentsSchema))
     @Middleware(authMiddleware)
     public async getMovieComments(request: Request, response: Response): Promise<void> {
         const { movieId } = request.params
