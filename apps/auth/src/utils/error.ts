@@ -12,29 +12,35 @@ export class HttpError extends Error {
 }
 
 export class HttpBadRequest extends HttpError {
-  constructor(message: string) {
-    const newMessage = message ?? ReasonPhrases.BAD_REQUEST
-    super(StatusCodes.BAD_REQUEST, newMessage)
+  constructor(message: string = ReasonPhrases.BAD_REQUEST) {
+    super(StatusCodes.BAD_REQUEST, message)
   }
 }
 
 export class HttpInternalServerError extends HttpError {
-  constructor(message?: string) {
-    const newMessage = message ?? ReasonPhrases.INTERNAL_SERVER_ERROR
-    super(StatusCodes.INTERNAL_SERVER_ERROR, newMessage)
+  constructor(message: string = ReasonPhrases.INTERNAL_SERVER_ERROR) {
+    super(StatusCodes.INTERNAL_SERVER_ERROR, message)
   }
 }
 
 export class HttpUnauthorized extends HttpError {
-  constructor(message?: string) {
-    const newMessage = message ?? ReasonPhrases.UNAUTHORIZED
-    super(StatusCodes.UNAUTHORIZED, newMessage)
+  constructor(message: string = ReasonPhrases.UNAUTHORIZED) {
+    super(StatusCodes.UNAUTHORIZED, message)
   }
 }
 
 export class HttpForbidden extends HttpError {
-  constructor(message?: string) {
-    const newMessage = message ?? ReasonPhrases.FORBIDDEN
-    super(StatusCodes.FORBIDDEN, newMessage)
+  constructor(message: string = ReasonPhrases.FORBIDDEN) {
+    super(StatusCodes.FORBIDDEN, message)
+  }
+}
+export class HttpConflict extends HttpError {
+  constructor(message: string = ReasonPhrases.CONFLICT) {
+    super(StatusCodes.CONFLICT, message)
+  }
+}
+export class HttpNotFound extends HttpError {
+  constructor(message: string = ReasonPhrases.NOT_FOUND) {
+    super(StatusCodes.NOT_FOUND, message)
   }
 }

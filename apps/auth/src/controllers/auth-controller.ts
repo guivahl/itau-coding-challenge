@@ -8,13 +8,15 @@ import { Cache } from '../clients/node-cache-client'
 import { validationMiddleware } from '../middlewares/validation-middleware'
 
 import { userLoginSchema, userVerifySchema } from '../entities/schemas/user'
+import { BaseController } from './base-controller'
 
 @Controller('auth')
-export class AuthController {
+export class AuthController extends BaseController {
     private userService: UsersService
     private cache: Cache
 
     constructor() {
+        super()
         this.userService = new UsersService()
         this.cache = new Cache()
     }
@@ -24,6 +26,7 @@ export class AuthController {
     public async login(request: Request, response: Response): Promise<void> {
         const { email, password } = request.body
 
+        try {
         const recentWrongLogins = this.cache.get(email)
 
         if (recentWrongLogins && recentWrongLogins > 3) {
@@ -63,6 +66,10 @@ export class AuthController {
         const token = await AuthService.generateToken(tokenData)
 
         response.status(StatusCodes.CREATED).json({ token })
+        } catch (error) {
+            const newError = this.errorHandler(error)
+            response.status(newError.status).json({ message: newError.message })
+        }
     }
 
     @Post('verify')
