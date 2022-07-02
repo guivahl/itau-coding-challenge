@@ -1,6 +1,7 @@
 echo "Running setup commands..."
 
 npm install --location=global prisma
-npx prisma migrate dev
-npx prisma db seed                   
-npm run dev
+npm install -D typescript ts-node @types/node
+npx prisma generate
+npx prisma migrate dev                
+

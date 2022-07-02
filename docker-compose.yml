@@ -25,7 +25,7 @@ services:
       - '3000'
     ports:
       - '3000:3000'
-    command: bash -c "sh ./docker-dev.sh"
+    command: bash -c "npm install -D ts-node-dev && npx prisma db seed && npm run dev"
 
   auth:
     build:
@@ -41,4 +41,4 @@ services:
       - '3001'
     ports:
       - '3001:3001'
-    command: bash -c "sh ./docker-dev.sh"
+    command: bash -c "npm install -D ts-node-dev && npx prisma db seed && npm run dev"
