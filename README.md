@@ -125,3 +125,4 @@ O projeto foi realizado ao longo do período de 10 dias. Devido ao tempo limitad
 - Adicionar cache na utilização de chamadas externas para consulta de filmes.
 - Adicionar logger de requisições.
 - Adicionar comandos de `build` para ambiente de produção.
+- Comando de execução das API's no docker está realizando download de um pacote e executando as migrations sempre que é chamado. Tive alguns problemas de autorização com o prisma dentro do docker, foi a forma que encontrei para solucionar o problema com o tempo que tinha disponível.
